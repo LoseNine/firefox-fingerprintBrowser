@@ -9,6 +9,7 @@
 通过网盘分享的文件：fingerprintbrowser-firefox
 链接: https://pan.baidu.com/s/1TXocn1792hzNAfLqAj0L0Q 提取码: axn7 
 
+指纹过检测测试网站：https://abrahamjuliot.github.io/creepjs/
 ---
 
 ## 功能特性
@@ -28,21 +29,37 @@
 
 ## 指纹配置文件说明
 
-创建一个纯文本文件（如 `profile1.txt`），内容格式如下：
-
+1.创建一个纯文本文件（如 `profile1.txt`），内容格式如下，这里指定指纹：
+```bash
 webdriver:0
-local_webrtc:108.151.173.203
-public_webrtc:119.151.173.203
-timezone:Asia/Taipei
-font_system:windows
-useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/119.0
-hardwareConcurrency:32
-webglrenderer:Google Inc. (Microsoft)
-webglvendor:ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11)
-width:550
-height:500
-canvas:2
 
+local_webrtc:108.151.173.203
+
+public_webrtc:119.151.173.203
+
+timezone:Asia/Taipei
+
+font_system:windows
+
+useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/119.0
+
+hardwareConcurrency:32
+
+webglrenderer:Google Inc. (Microsoft)
+
+webglvendor:ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+width:550
+
+height:500
+
+canvas:2
+```
+
+2.在浏览器启动的时候指定fpfile参数，可以在cmd或者任何脚本程序中做，然后就会使用这个txt里边的指纹：
+```bash
+firefox.exe --fpfile=C:\fingerprints\profile1.txt
+```
 
 ### 字段说明
 
@@ -69,6 +86,7 @@ canvas:2
 
 ```bash
 firefox.exe --fpfile=C:\fingerprints\profile1.txt
+```
 
 多开方案
 每个浏览器实例使用不同的指纹文件和独立的 --profile 目录即可实现多开，各实例之间数据完全隔离。
@@ -116,5 +134,3 @@ webglvendor:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3
 width:1366
 height:768
 canvas:99
-
-
