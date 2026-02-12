@@ -107,7 +107,9 @@ foxprint.exe --fpfile=C:\fingerprints\profile2.txt --profile=C:\profiles\user2
 foxprint.exe --fpfile=C:\fingerprints\profile3.txt --profile=C:\profiles\user3
 
 配置文件示例
+
 美国用户
+```bash
 webdriver:0
 local_webrtc:192.168.1.100
 public_webrtc:45.33.32.156
@@ -120,8 +122,10 @@ webglvendor:ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_
 width:1920
 height:1080
 canvas:42
+```
 
 日本用户
+```bash
 webdriver:0
 local_webrtc:10.0.0.5
 public_webrtc:103.5.140.200
@@ -134,3 +138,4 @@ webglvendor:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3
 width:1366
 height:768
 canvas:99
+```
