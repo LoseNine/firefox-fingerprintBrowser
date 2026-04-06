@@ -18,10 +18,11 @@
 - 自定义 UserAgent
 - 自定义时区
 - 自定义 Canvas 指纹噪声
-- 自定义 WebGL 渲染器信息
+- 自定义 WebGL 完整参数（vendor、renderer、version、GLSL version、纹理大小等）
 - 自定义屏幕分辨率
 - 自定义硬件并发数
 - 自定义系统字体集（Windows / Linux / Mac）
+- 自定义浏览器语言
 - WebDriver 检测屏蔽
 - 多开互不干扰，每个实例独立指纹
 
@@ -33,27 +34,49 @@
 ```bash
 webdriver:0
 
-local_webrtc:108.151.173.203
+local_webrtc:211.22.154.61
 
-public_webrtc:119.151.173.203
+public_webrtc:211.22.154.61
 
 timezone:Asia/Taipei
 
 font_system:windows
 
-useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/119.0
+useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/147.0
 
 hardwareConcurrency:32
 
-webglrenderer:Google Inc. (Microsoft)
+webgl.vendor:Google Inc. (AMD)
 
-webglvendor:ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.renderer:ANGLE (AMD, AMD Radeon RX 6800 XT Direct3D11 vs_5_0 ps_5_0, D3D11)
 
-width:550
+webgl.version:WebGL 1.0 (OpenGL ES 2.0 Chromium)
+
+webgl.glsl_version:WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+
+webgl.unmasked_vendor:Google Inc. (AMD)
+
+webgl.unmasked_renderer:ANGLE (AMD, AMD Radeon RX 6800 XT Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+webgl.max_texture_size:16384
+
+webgl.max_cube_map_texture_size:16384
+
+webgl.max_texture_image_units:32
+
+webgl.max_vertex_attribs:16
+
+webgl.aliased_point_size_max:1024
+
+webgl.max_viewport_dim:16384
+
+width:551
 
 height:500
 
-canvas:2
+canvas:10
+
+language:en-US,zh-CN
 ```
 
 2.在浏览器启动的时候指定fpfile参数，可以在cmd或者任何脚本程序中做，然后就会使用这个txt里边的指纹：
@@ -72,11 +95,22 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 | `font_system` | 系统字体集 | `windows` / `linux` / `mac` |
 | `useragent` | 浏览器 UA 字符串 | 自定义 UA |
 | `hardwareConcurrency` | CPU 逻辑核心数 | 正整数，如 `2`、`4`、`8`、`16`、`32` |
-| `webglrenderer` | WebGL 渲染器名称 | 自定义字符串 |
-| `webglvendor` | WebGL 厂商信息 | 自定义字符串 |
+| `webgl.vendor` | WebGL 厂商信息（masked） | 自定义字符串，如 `Google Inc. (AMD)` |
+| `webgl.renderer` | WebGL 渲染器信息（masked） | 自定义字符串，如 `ANGLE (AMD, ...)` |
+| `webgl.version` | WebGL 版本 | 如 `WebGL 1.0 (OpenGL ES 2.0 Chromium)` |
+| `webgl.glsl_version` | GLSL 着色器语言版本 | 如 `WebGL GLSL ES 1.0 (...)` |
+| `webgl.unmasked_vendor` | WebGL 真实厂商信息 | 自定义字符串 |
+| `webgl.unmasked_renderer` | WebGL 真实渲染器信息 | 自定义字符串 |
+| `webgl.max_texture_size` | 最大纹理尺寸 | 正整数，如 `16384`、`8192` |
+| `webgl.max_cube_map_texture_size` | 最大立方体贴图尺寸 | 正整数，如 `16384` |
+| `webgl.max_texture_image_units` | 最大纹理单元数 | 正整数，如 `32`、`16` |
+| `webgl.max_vertex_attribs` | 最大顶点属性数 | 正整数，如 `16` |
+| `webgl.aliased_point_size_max` | 最大点大小 | 正整数，如 `1024` |
+| `webgl.max_viewport_dim` | 最大视口尺寸 | 正整数，如 `16384` |
 | `width` | 屏幕宽度 | 正整数（像素） |
 | `height` | 屏幕高度 | 正整数（像素） |
 | `canvas` | Canvas 指纹噪声种子 | 任意整数，不同值产生不同指纹 |
+| `language` | 浏览器语言列表 | 逗号分隔，如 `en-US,zh-CN` |
 
 ---
 
@@ -117,11 +151,22 @@ timezone:America/New_York
 font_system:windows
 useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0
 hardwareConcurrency:8
-webglrenderer:NVIDIA Corporation (NVIDIA)
-webglvendor:ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.vendor:NVIDIA Corporation
+webgl.renderer:ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.version:WebGL 1.0 (OpenGL ES 2.0 Chromium)
+webgl.glsl_version:WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+webgl.unmasked_vendor:NVIDIA Corporation
+webgl.unmasked_renderer:ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.max_texture_size:16384
+webgl.max_cube_map_texture_size:16384
+webgl.max_texture_image_units:32
+webgl.max_vertex_attribs:16
+webgl.aliased_point_size_max:1024
+webgl.max_viewport_dim:16384
 width:1920
 height:1080
 canvas:42
+language:en-US
 ```
 
 日本用户
@@ -133,9 +178,20 @@ timezone:Asia/Tokyo
 font_system:windows
 useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0
 hardwareConcurrency:4
-webglrenderer:Intel Inc. (Intel)
-webglvendor:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.vendor:Intel Inc.
+webgl.renderer:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.version:WebGL 1.0 (OpenGL ES 2.0 Chromium)
+webgl.glsl_version:WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+webgl.unmasked_vendor:Intel Inc.
+webgl.unmasked_renderer:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.max_texture_size:8192
+webgl.max_cube_map_texture_size:8192
+webgl.max_texture_image_units:16
+webgl.max_vertex_attribs:16
+webgl.aliased_point_size_max:1024
+webgl.max_viewport_dim:8192
 width:1366
 height:768
 canvas:99
+language:ja-JP,en-US
 ```
