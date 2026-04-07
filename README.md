@@ -5,11 +5,7 @@
 
 > 仅支持 Windows 平台
 
-百度网盘下载压缩包直接使用：
-通过网盘分享的文件：fingerprintbrowser-firefox
-链接: https://pan.baidu.com/s/1TXocn1792hzNAfLqAj0L0Q 提取码: axn7 
-
-指纹过检测测试网站：https://abrahamjuliot.github.io/creepjs/
+下载见release
 ---
 
 ## 功能特性
