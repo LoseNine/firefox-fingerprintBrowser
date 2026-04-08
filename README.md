@@ -133,15 +133,22 @@ httpauth.username:xxxxx
 httpauth.password:xxx
 ```
 
-如果要让指定 `profile` 走 HTTP/HTTPS 代理，需要在该 `profile` 目录下的 `user.js` 中加入以下配置：
+如果要让指定 `profile` 走 HTTP/HTTPS 代理，按下面步骤配置即可。
+
+1. 在 `fpfile` 中写入代理认证账号和密码。
+2. 在对应 `profile` 目录下的 `user.js` 中写入代理地址和端口。
+
+`user.js` 示例：
 
 ```js
 user_pref("network.proxy.type", 1);
-user_pref("network.proxy.http", "gw-res.cloudbypass.com");
-user_pref("network.proxy.http_port", 1288);
-user_pref("network.proxy.ssl", "gw-res.cloudbypass.com");
-user_pref("network.proxy.ssl_port", 1288);
+user_pref("network.proxy.http", "xxx");
+user_pref("network.proxy.http_port", xxx);
+user_pref("network.proxy.ssl", "xxx");
+user_pref("network.proxy.ssl_port", xxx);
 ```
+
+将上面的 `xxx` 替换为实际代理地址和端口。
 
 例如：
 
