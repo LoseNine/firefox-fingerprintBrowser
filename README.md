@@ -73,6 +73,10 @@ height:500
 canvas:10
 
 language:en-US,zh-CN
+
+httpauth.username:xxxxx
+
+httpauth.password:xxx
 ```
 
 2.在浏览器启动的时候指定fpfile参数，可以在cmd或者任何脚本程序中做，然后就会使用这个txt里边的指纹：
@@ -107,6 +111,8 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 | `height` | 屏幕高度 | 正整数（像素） |
 | `canvas` | Canvas 指纹噪声种子 | 任意整数，不同值产生不同指纹 |
 | `language` | 浏览器语言列表 | 逗号分隔，如 `en-US,zh-CN` |
+| `httpauth.username` | HTTP 代理认证用户名 | 代理账号字符串 |
+| `httpauth.password` | HTTP 代理认证密码 | 代理密码字符串 |
 
 ---
 
@@ -117,6 +123,33 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 ```bash
 firefox.exe --fpfile=C:\fingerprints\profile1.txt
 ```
+
+### HTTP 密码代理
+
+`fpfile` 已支持 HTTP 代理认证字段：
+
+```bash
+httpauth.username:xxxxx
+httpauth.password:xxx
+```
+
+如果要让指定 `profile` 走 HTTP/HTTPS 代理，需要在该 `profile` 目录下的 `user.js` 中加入以下配置：
+
+```js
+user_pref("network.proxy.type", 1);
+user_pref("network.proxy.http", "gw-res.cloudbypass.com");
+user_pref("network.proxy.http_port", 1288);
+user_pref("network.proxy.ssl", "gw-res.cloudbypass.com");
+user_pref("network.proxy.ssl_port", 1288);
+```
+
+例如：
+
+```bash
+foxprint.exe --fpfile=C:\fingerprints\profile1.txt --profile=C:\profiles\user1
+```
+
+对应的代理配置文件路径为：`C:\profiles\user1\user.js`
 
 多开方案
 每个浏览器实例使用不同的指纹文件和独立的 --profile 目录即可实现多开，各实例之间数据完全隔离。
@@ -163,6 +196,8 @@ width:1920
 height:1080
 canvas:42
 language:en-US
+httpauth.username:xxxxx
+httpauth.password:xxx
 ```
 
 日本用户
@@ -190,4 +225,6 @@ width:1366
 height:768
 canvas:99
 language:ja-JP,en-US
+httpauth.username:xxxxx
+httpauth.password:xxx
 ```
