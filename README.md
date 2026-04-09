@@ -1,5 +1,7 @@
 # 🦊 Firefox 指纹浏览器
 
+> 专门用于 https://github.com/LoseNine/ruyipage 自动化的过检测浏览器内核
+
 基于 Firefox 源码修改的本地指纹浏览器，通过读取本地配置文件自定义浏览器指纹信息，实现多账号隔离与反指纹检测，专门针对creepjs过了过检测。
 
 
@@ -30,9 +32,13 @@
 ```bash
 webdriver:0
 
-local_webrtc:211.22.154.61
+local_webrtc_ipv4:1.2.3.4
 
-public_webrtc:211.22.154.61
+local_webrtc_ipv6:2001:db8::1234
+
+public_webrtc_ipv4:8.8.8.8
+
+public_webrtc_ipv6:2001:db8::5678
 
 timezone:Asia/Taipei
 
@@ -89,8 +95,10 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 | 字段 | 说明 | 可选值 / 格式 |
 |------|------|---------------|
 | `webdriver` | 是否暴露 WebDriver 标记 | `0` 隐藏 / `1` 暴露 |
-| `local_webrtc` | WebRTC 本地 IP | 任意 IPv4 地址 |
-| `public_webrtc` | WebRTC 公网 IP | 任意 IPv4 地址 |
+| `local_webrtc_ipv4` | WebRTC 本地 IPv4 | 任意 IPv4 地址 |
+| `local_webrtc_ipv6` | WebRTC 本地 IPv6 | 任意 IPv6 地址 |
+| `public_webrtc_ipv4` | WebRTC 公网 IPv4 | 任意 IPv4 地址 |
+| `public_webrtc_ipv6` | WebRTC 公网 IPv6 | 任意 IPv6 地址 |
 | `timezone` | 时区 | IANA 时区名，如 `Asia/Taipei`、`America/New_York` |
 | `font_system` | 系统字体集 | `windows` / `linux` / `mac` |
 | `useragent` | 浏览器 UA 字符串 | 自定义 UA |
@@ -181,8 +189,10 @@ foxprint.exe --fpfile=C:\fingerprints\profile3.txt --profile=C:\profiles\user3
 美国用户
 ```bash
 webdriver:0
-local_webrtc:192.168.1.100
-public_webrtc:45.33.32.156
+local_webrtc_ipv4:192.168.1.100
+local_webrtc_ipv6:2001:db8::1100
+public_webrtc_ipv4:45.33.32.156
+public_webrtc_ipv6:2001:db8::3156
 timezone:America/New_York
 font_system:windows
 useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0
@@ -210,8 +220,10 @@ httpauth.password:xxx
 日本用户
 ```bash
 webdriver:0
-local_webrtc:10.0.0.5
-public_webrtc:103.5.140.200
+local_webrtc_ipv4:10.0.0.5
+local_webrtc_ipv6:2001:db8::1005
+public_webrtc_ipv4:103.5.140.200
+public_webrtc_ipv6:2001:db8::5200
 timezone:Asia/Tokyo
 font_system:windows
 useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0
