@@ -15,6 +15,7 @@
 - 自定义 WebRTC 本地/公网 IP
 - 自定义 UserAgent
 - 自定义时区
+- 自定义语音列表与默认语音（本地 / 远程 TTS）
 - 自定义 Canvas 指纹噪声
 - 自定义 WebGL 完整参数（vendor、renderer、version、GLSL version、纹理大小等）
 - 自定义屏幕分辨率
@@ -32,15 +33,29 @@
 ```bash
 webdriver:0
 
-local_webrtc_ipv4:1.2.3.4
+local_webrtc_ipv4:104.251.229.181
 
 local_webrtc_ipv6:2001:db8::1234
 
-public_webrtc_ipv4:8.8.8.8
+public_webrtc_ipv4:104.251.229.181
 
 public_webrtc_ipv6:2001:db8::5678
 
-timezone:Asia/Taipei
+timezone:Asia/Tokyo
+
+language:ja-JP,ja
+
+speech.voices.local:Microsoft Haruka Desktop - Japanese|Microsoft Ichiro Desktop - Japanese|Microsoft Ayumi - Japanese (Japan)
+
+speech.voices.remote:Google 日本語|Google 日本語（日本）
+
+speech.voices.local.langs:ja-JP|ja-JP|ja-JP
+
+speech.voices.remote.langs:ja-JP|ja-JP
+
+speech.voices.default.name:Microsoft Haruka Desktop - Japanese
+
+speech.voices.default.lang:ja-JP
 
 font_system:windows
 
@@ -76,9 +91,7 @@ width:551
 
 height:500
 
-canvas:10
-
-language:en-US,zh-CN
+canvas:12
 
 httpauth.username:xxxxx
 
@@ -100,6 +113,13 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 | `public_webrtc_ipv4` | WebRTC 公网 IPv4 | 任意 IPv4 地址 |
 | `public_webrtc_ipv6` | WebRTC 公网 IPv6 | 任意 IPv6 地址 |
 | `timezone` | 时区 | IANA 时区名，如 `Asia/Taipei`、`America/New_York` |
+| `language` | 浏览器语言列表 | 逗号分隔，如 `ja-JP,ja`、`en-US,zh-CN` |
+| `speech.voices.local` | 本地语音列表 | 用 `|` 分隔的语音名称列表 |
+| `speech.voices.remote` | 远程语音列表 | 用 `|` 分隔的语音名称列表 |
+| `speech.voices.local.langs` | 本地语音语言列表 | 与本地语音一一对应，使用 `|` 分隔 |
+| `speech.voices.remote.langs` | 远程语音语言列表 | 与远程语音一一对应，使用 `|` 分隔 |
+| `speech.voices.default.name` | 默认语音名称 | 需与语音列表中的某一项一致 |
+| `speech.voices.default.lang` | 默认语音语言 | 如 `ja-JP`、`en-US` |
 | `font_system` | 系统字体集 | `windows` / `linux` / `mac` |
 | `useragent` | 浏览器 UA 字符串 | 自定义 UA |
 | `hardwareConcurrency` | CPU 逻辑核心数 | 正整数，如 `2`、`4`、`8`、`16`、`32` |
@@ -118,9 +138,23 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 | `width` | 屏幕宽度 | 正整数（像素） |
 | `height` | 屏幕高度 | 正整数（像素） |
 | `canvas` | Canvas 指纹噪声种子 | 任意整数，不同值产生不同指纹 |
-| `language` | 浏览器语言列表 | 逗号分隔，如 `en-US,zh-CN` |
 | `httpauth.username` | HTTP 代理认证用户名 | 代理账号字符串 |
 | `httpauth.password` | HTTP 代理认证密码 | 代理密码字符串 |
+
+### 配置规划建议
+
+适合 `ruyipage` 自动化场景的一份指纹文件，建议按下面顺序规划：
+
+1. 先固定地区相关字段：`timezone`、`language`、`speech.voices.*` 保持同一国家和语言环境。
+2. 再固定网络暴露字段：`local_webrtc_ipv4`、`local_webrtc_ipv6`、`public_webrtc_ipv4`、`public_webrtc_ipv6` 与目标出口环境保持一致。
+3. 再固定硬件渲染字段：`useragent`、`hardwareConcurrency`、`webgl.*`、`font_system` 之间不要相互冲突。
+4. 最后补充界面尺寸与噪声：`width`、`height`、`canvas`，让不同实例有轻微差异但不要偏离常见设备画像。
+
+语音字段建议保持成套一致：
+
+1. `speech.voices.local` 与 `speech.voices.local.langs` 数量要一致。
+2. `speech.voices.remote` 与 `speech.voices.remote.langs` 数量要一致。
+3. `speech.voices.default.name` 和 `speech.voices.default.lang` 需要与语音列表自洽。
 
 ---
 
@@ -220,30 +254,36 @@ httpauth.password:xxx
 日本用户
 ```bash
 webdriver:0
-local_webrtc_ipv4:10.0.0.5
-local_webrtc_ipv6:2001:db8::1005
-public_webrtc_ipv4:103.5.140.200
-public_webrtc_ipv6:2001:db8::5200
+local_webrtc_ipv4:104.251.229.181
+local_webrtc_ipv6:2001:db8::1234
+public_webrtc_ipv4:104.251.229.181
+public_webrtc_ipv6:2001:db8::5678
 timezone:Asia/Tokyo
+language:ja-JP,ja
+speech.voices.local:Microsoft Haruka Desktop - Japanese|Microsoft Ichiro Desktop - Japanese|Microsoft Ayumi - Japanese (Japan)
+speech.voices.remote:Google 日本語|Google 日本語（日本）
+speech.voices.local.langs:ja-JP|ja-JP|ja-JP
+speech.voices.remote.langs:ja-JP|ja-JP
+speech.voices.default.name:Microsoft Haruka Desktop - Japanese
+speech.voices.default.lang:ja-JP
 font_system:windows
-useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0
-hardwareConcurrency:4
-webgl.vendor:Intel Inc.
-webgl.renderer:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11)
+useragent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/147.0
+hardwareConcurrency:32
+webgl.vendor:Google Inc. (AMD)
+webgl.renderer:ANGLE (AMD, AMD Radeon RX 6800 XT Direct3D11 vs_5_0 ps_5_0, D3D11)
 webgl.version:WebGL 1.0 (OpenGL ES 2.0 Chromium)
 webgl.glsl_version:WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
-webgl.unmasked_vendor:Intel Inc.
-webgl.unmasked_renderer:ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11)
-webgl.max_texture_size:8192
-webgl.max_cube_map_texture_size:8192
-webgl.max_texture_image_units:16
+webgl.unmasked_vendor:Google Inc. (AMD)
+webgl.unmasked_renderer:ANGLE (AMD, AMD Radeon RX 6800 XT Direct3D11 vs_5_0 ps_5_0, D3D11)
+webgl.max_texture_size:16384
+webgl.max_cube_map_texture_size:16384
+webgl.max_texture_image_units:32
 webgl.max_vertex_attribs:16
 webgl.aliased_point_size_max:1024
-webgl.max_viewport_dim:8192
-width:1366
-height:768
-canvas:99
-language:ja-JP,en-US
+webgl.max_viewport_dim:16384
+width:551
+height:500
+canvas:12
 httpauth.username:xxxxx
 httpauth.password:xxx
 ```
