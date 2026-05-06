@@ -5,9 +5,11 @@
 基于 Firefox 源码修改的本地指纹浏览器，通过读取本地配置文件自定义浏览器指纹信息，实现多账号隔离与反指纹检测，专门针对creepjs过了过检测。
 
 
-> 仅支持 Windows 平台
+> 支持 Windows / Linux 平台
 
-下载见release
+下载请前往 GitHub release 页面
+
+微信：`Charleval`
 ---
 
 ## 功能特性
