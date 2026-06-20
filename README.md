@@ -1,16 +1,3 @@
-# Firefox 指纹浏览器
-
-> 专门用于 https://github.com/LoseNine/ruyipage 自动化的过检测浏览器内核
-
-基于 Firefox 源码修改的本地指纹浏览器，通过读取本地配置文件自定义浏览器指纹信息，实现多账号隔离与反指纹检测。
-
-> 支持 Windows / Linux 平台
-
-下载请前往 GitHub release 页面
-
-微信：`Charleval`
-
----
 
 ## 功能特性
 
@@ -29,10 +16,7 @@
 ---
 
 ## 指纹配置文件说明
-
-创建一个纯文本文件，例如 `profile1.txt` 或 `fp.txt`。有效配置行支持 `key:value` 或 `key=value` 两种写法；以 `#` 开头的是注释，不参与 Firefox 指纹内核解析。
-
-下面示例基于根目录 `fp.txt` 整理，已经把真实 IP、代理账号、密码、会话号等敏感信息替换为占位值。公开文档不要提交真实代理凭据。
+已经把真实 IP、代理账号、密码、会话号等敏感信息替换为占位值。公开文档不要提交真实代理凭据。
 
 ```bash
 # [WebRTC IP 指纹]
@@ -255,90 +239,6 @@ firefox.exe --fpfile=C:\fingerprints\profile1.txt
 
 ---
 
-## 使用方法
-
-### 基本启动
-
-```bash
-firefox.exe --fpfile=C:\fingerprints\profile1.txt
-```
-
-### HTTP 密码代理
-
-`fpfile` 中写入认证账号和密码：
-
-```bash
-httpauth.username:REPLACE_WITH_HTTP_USER
-httpauth.password:REPLACE_WITH_HTTP_PASSWORD
-```
-
-然后在对应 `profile` 目录的 `user.js` 中写入 HTTP/HTTPS 代理地址和端口：
-
-```js
-user_pref("network.proxy.type", 1);
-user_pref("network.proxy.http", "proxy.example.com");
-user_pref("network.proxy.http_port", 1000);
-user_pref("network.proxy.ssl", "proxy.example.com");
-user_pref("network.proxy.ssl_port", 1000);
-```
-
-启动示例：
-
-```bash
-foxprint.exe --fpfile=C:\fingerprints\profile1.txt --profile=C:\profiles\user1
-```
-
-### SOCKS5 密码代理
-
-SOCKS5 认证账号写在 `fpfile` 中：
-
-```bash
-socksauth.host:gate.example.com
-socksauth.port:1000
-socksauth.username:REPLACE_WITH_SOCKS_USER
-socksauth.password:REPLACE_WITH_SOCKS_PASSWORD
-```
-
-同时在对应 `profile` 目录的 `user.js` 中写入 SOCKS5 代理地址和端口：
-
-```js
-user_pref("network.proxy.type", 1);
-user_pref("network.proxy.socks", "gate.example.com");
-user_pref("network.proxy.socks_port", 1000);
-user_pref("network.proxy.socks_version", 5);
-user_pref("network.proxy.socks_remote_dns", true);
-```
-
-如果使用 `ruyipage`，可以用 `set_proxy('socks5://gate.example.com:1000')` 写入 SOCKS5 主机和端口，账号密码仍由 `fpfile` 中的 `socksauth.*` 字段提供。
-
-### 代理轮换
-
-`proxy.rotate.*` 适用于一个 tab 使用一个密码代理的轮换场景。把每个可用代理写成一行 `proxy.rotate.proxy`，浏览器会按 userContext/tab 顺序取一个代理条目。
-
-```bash
-proxy.rotate.enabled=true
-proxy.rotate.exhausted=wrap
-proxy.rotate.proxy=socks5://gate.example.com:1000:REPLACE_WITH_USER:REPLACE_WITH_PASSWORD_US_00000001_5m
-proxy.rotate.proxy=socks5://gate.example.com:1000:REPLACE_WITH_USER:REPLACE_WITH_PASSWORD_US_00000002_5m
-proxy.rotate.proxy=socks5://gate.example.com:1000:REPLACE_WITH_USER:REPLACE_WITH_PASSWORD_US_00000003_5m
-```
-
-`proxy.rotate.exhausted` 可选值：
-
-- `wrap`：代理列表用完后从第一条继续循环。
-- `direct` / `none` / `stop`：代理列表用完后不再分配代理。
-
-### 多开方案
-
-每个浏览器实例使用不同的指纹文件和独立的 `--profile` 目录即可实现多开，各实例之间数据完全隔离。
-
-```bash
-foxprint.exe --fpfile=C:\fingerprints\profile1.txt --profile=C:\profiles\user1
-foxprint.exe --fpfile=C:\fingerprints\profile2.txt --profile=C:\profiles\user2
-foxprint.exe --fpfile=C:\fingerprints\profile3.txt --profile=C:\profiles\user3
-```
-
----
 
 ## 配置规划建议
 
@@ -352,9 +252,3 @@ foxprint.exe --fpfile=C:\fingerprints\profile3.txt --profile=C:\profiles\user3
 1. `speech.voices.local` 与 `speech.voices.local.langs` 数量要一致。
 2. `speech.voices.remote` 与 `speech.voices.remote.langs` 数量要一致。
 3. `speech.voices.default.name` 和 `speech.voices.default.lang` 需要与语音列表自洽。
-
-代理和敏感信息建议：
-
-1. 不要把真实代理账号、密码、会话号或出口 IP 提交到公开仓库。
-2. README、示例截图、issue 内容统一使用 `REPLACE_WITH_*`、`203.0.113.0/24`、`2001:db8::/32` 等占位值。
-3. 真正运行用的 `fp.txt` 建议放在私有目录，并按账号或任务分开管理。
